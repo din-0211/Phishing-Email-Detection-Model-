@@ -1,0 +1,265 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+My Profile
+{% endblock %}
+
+{% block page_subtitle %}
+Manage your PhishGuard analyst profile
+{% endblock %}
+
+{% block content %}
+
+<div class="profile-layout">
+
+    <!-- Profile Card -->
+
+    <div class="panel profile-main-card">
+
+        <div class="profile-cover"></div>
+
+        <div class="profile-content">
+
+            <div class="profile-avatar-large">
+                SA
+            </div>
+
+            <div class="profile-heading">
+
+                <h2>Security Analyst</h2>
+
+                <p>PhishGuard Security Analyst</p>
+
+                <span class="profile-active">
+                    ● Active Analyst
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="profile-description">
+
+            <p>
+                Authorized analyst responsible for analyzing suspicious
+                emails and identifying potential phishing threats using
+                the PhishGuard detection system.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- Analyst Information -->
+
+    <div class="panel profile-info-card">
+
+        <div class="panel-header">
+
+            <div>
+                <h3>Analyst Information</h3>
+                <p>Your PhishGuard identification details.</p>
+            </div>
+
+        </div>
+
+
+        <div class="profile-info-list">
+
+            <div class="profile-info-row">
+
+                <span>Analyst ID</span>
+
+                <strong>PG-AN-0001</strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>Full Name</span>
+
+                <strong>Security Analyst</strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>Email</span>
+
+                <strong>analyst@phishguard.local</strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>Role</span>
+
+                <strong>Security Analyst</strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>Issued Date</span>
+
+                <strong>15 September 2026</strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>Expiry Date</span>
+
+                <strong>15 September 2027</strong>
+
+            </div>
+
+
+            <div class="profile-info-row">
+
+                <span>Account Status</span>
+
+                <strong class="profile-status">
+                    Active
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Security Access -->
+
+<div class="panel access-panel">
+
+    <div class="panel-header">
+
+        <div>
+            <h3>Security Access</h3>
+            <p>Permissions assigned to this analyst.</p>
+        </div>
+
+    </div>
+
+
+    <div class="permission-grid">
+
+        <div class="permission-card">
+
+            <span class="permission-icon">🔍</span>
+
+            <div>
+                <strong>Email Analysis</strong>
+                <p>Allowed</p>
+            </div>
+
+            <span class="permission-allowed">
+                ✓
+            </span>
+
+        </div>
+
+
+        <div class="permission-card">
+
+            <span class="permission-icon">📄</span>
+
+            <div>
+                <strong>View Reports</strong>
+                <p>Allowed</p>
+            </div>
+
+            <span class="permission-allowed">
+                ✓
+            </span>
+
+        </div>
+
+
+        <div class="permission-card">
+
+            <span class="permission-icon">📊</span>
+
+            <div>
+                <strong>View Dashboard</strong>
+                <p>Allowed</p>
+            </div>
+
+            <span class="permission-allowed">
+                ✓
+            </span>
+
+        </div>
+
+
+        <div class="permission-card">
+
+            <span class="permission-icon">⚙️</span>
+
+            <div>
+                <strong>System Settings</strong>
+                <p>Administrator only</p>
+            </div>
+
+            <span class="permission-restricted">
+                —
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Project Information -->
+
+<div class="panel project-profile-panel">
+
+    <div class="panel-header">
+
+        <div>
+            <h3>PhishGuard Analyst Profile</h3>
+            <p>Profile information for the phishing detection project.</p>
+        </div>
+
+    </div>
+
+
+    <div class="project-profile-grid">
+
+        <div>
+            <span>Project</span>
+            <strong>PhishGuard</strong>
+        </div>
+
+        <div>
+            <span>Department</span>
+            <strong>Cybersecurity</strong>
+        </div>
+
+        <div>
+            <span>Detection Type</span>
+            <strong>Phishing Email Detection</strong>
+        </div>
+
+        <div>
+            <span>Model</span>
+            <strong>Scikit-learn ML Model</strong>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

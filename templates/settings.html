@@ -1,0 +1,1151 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Settings
+{% endblock %}
+
+{% block page_subtitle %}
+Manage analysts, identification and system access
+{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+```
+<!-- ==================== PAGE HEADER ==================== -->
+<div class="settings-page-header">
+
+    <div class="settings-title-area">
+
+        <div class="settings-title-icon">
+            ⚙
+        </div>
+
+        <div>
+            <h2>Analyst Management</h2>
+            <p>Create, manage and monitor PhishGuard security analysts.</p>
+        </div>
+
+    </div>
+
+    <button
+        type="button"
+        class="settings-primary-btn"
+        onclick="openAnalystModal()">
+
+        <span>+</span>
+        Add Analyst
+
+    </button>
+
+</div>
+
+
+<!-- ==================== STATISTICS ==================== -->
+<div class="settings-stats-grid">
+
+    <!-- TOTAL ANALYSTS -->
+    <div class="settings-stat-card">
+
+        <div class="settings-stat-icon blue">
+            👥
+        </div>
+
+        <div class="settings-stat-content">
+
+            <span>Total Analysts</span>
+
+            <strong>{{ total }}</strong>
+
+            <small>Registered accounts</small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ACTIVE ANALYSTS -->
+    <div class="settings-stat-card">
+
+        <div class="settings-stat-icon green">
+            ✓
+        </div>
+
+        <div class="settings-stat-content">
+
+            <span>Active Analysts</span>
+
+            <strong>{{ active }}</strong>
+
+            <small>Currently active</small>
+
+        </div>
+
+    </div>
+
+
+    <!-- ISSUED IDS -->
+    <div class="settings-stat-card">
+
+        <div class="settings-stat-icon purple">
+            🪪
+        </div>
+
+        <div class="settings-stat-content">
+
+            <span>Issued IDs</span>
+
+            <strong>{{ total }}</strong>
+
+            <small>Identification cards</small>
+
+        </div>
+
+    </div>
+
+
+    <!-- SYSTEM ACCESS -->
+    <div class="settings-stat-card">
+
+        <div class="settings-stat-icon orange">
+            🛡
+        </div>
+
+        <div class="settings-stat-content">
+
+            <span>System Access</span>
+
+            <strong>Admin</strong>
+
+            <small>Management access</small>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ==================== ANALYST TABLE ==================== -->
+<div class="settings-panel">
+
+    <div class="settings-panel-header">
+
+        <div>
+
+            <h3>All Analysts</h3>
+
+            <p>
+                Manage registered PhishGuard security personnel.
+            </p>
+
+        </div>
+
+        <button
+            type="button"
+            class="settings-outline-btn"
+            onclick="openAnalystModal()">
+
+            + New Analyst
+
+        </button>
+
+    </div>
+
+
+    {% if analysts %}
+
+    <div class="analyst-table-wrapper">
+
+        <table class="professional-analyst-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Analyst</th>
+
+                    <th>Analyst ID</th>
+
+                    <th>Role</th>
+
+                    <th>Issued</th>
+
+                    <th>Expiry</th>
+
+                    <th>Status</th>
+
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for analyst in analysts %}
+
+                <tr>
+
+                    <!-- ANALYST -->
+                    <td>
+
+                        <div class="table-analyst">
+
+                            <div class="table-avatar">
+                                {{ analyst["name"][0]|upper }}
+                            </div>
+
+                            <div class="table-analyst-info">
+
+                                <strong>
+                                    {{ analyst["name"] }}
+                                </strong>
+
+                                <span>
+                                    {{ analyst["email"] }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- ANALYST ID -->
+                    <td>
+
+                        <span class="table-analyst-id">
+                            {{ analyst["analyst_id"] }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- ROLE -->
+                    <td>
+
+                        <span class="role-badge">
+                            {{ analyst["role"] }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- ISSUED -->
+                    <td>
+                        {{ analyst["issued_date"] }}
+                    </td>
+
+
+                    <!-- EXPIRY -->
+                    <td>
+                        {{ analyst["expiry_date"] }}
+                    </td>
+
+
+                    <!-- STATUS -->
+                    <td>
+
+                        {% if analyst["status"] == "Active" %}
+
+                        <span class="analyst-status active">
+
+                            <i></i>
+
+                            Active
+
+                        </span>
+
+                        {% else %}
+
+                        <span class="analyst-status inactive">
+
+                            <i></i>
+
+                            Inactive
+
+                        </span>
+
+                        {% endif %}
+
+                    </td>
+
+
+                    <!-- ACTIONS -->
+                    <td>
+
+                        <div class="analyst-actions">
+                            <button
+    type="button"
+    class="action-view-btn"
+    data-analyst='{{ analyst|tojson|safe }}'>
+    View
+</button>
+
+
+                          <button
+    type="button"
+    class="action-view-btn"
+    data-analyst='{{ analyst|tojson|safe }}'>
+    View
+</button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <div class="settings-empty-state">
+
+        <div class="settings-empty-icon">
+            👥
+        </div>
+
+        <h3>No Analysts Registered</h3>
+
+        <p>
+            Add your first security analyst to start managing
+            PhishGuard users.
+        </p>
+
+        <button
+            type="button"
+            class="settings-primary-btn"
+            onclick="openAnalystModal()">
+
+            + Create Analyst
+
+        </button>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- ==================== ID CARD ==================== -->
+<div class="settings-panel">
+
+    <div class="settings-panel-header">
+
+        <div>
+
+            <h3>Analyst Identification Card</h3>
+
+            <p>
+                Preview and print a security analyst identification card.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="id-card-section">
+
+        <div
+            class="phishguard-id-card"
+            id="idCard">
+
+            <!-- ID CARD HEADER -->
+            <div class="id-card-header">
+
+                <div class="id-card-brand">
+
+                    <div class="id-card-logo">
+                        🛡
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            PHISHGUARD
+                        </strong>
+
+                        <span>
+                            SECURITY OPERATIONS
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <span class="id-card-label">
+                    ANALYST ID
+                </span>
+
+            </div>
+
+
+            <!-- ID CARD CONTENT -->
+            <div class="id-card-content">
+
+                <div
+                    class="id-card-avatar"
+                    id="cardAvatar">
+
+                    SA
+
+                </div>
+
+
+                <div class="id-card-person">
+
+                    <span>
+                        AUTHORIZED ANALYST
+                    </span>
+
+                    <h2 id="cardName">
+                        Security Analyst
+                    </h2>
+
+                    <p id="cardRole">
+                        Security Analyst
+                    </p>
+
+                    <strong id="cardId">
+                        PG-AN-0001
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- ID CARD FOOTER -->
+            <div class="id-card-footer">
+
+                <span>
+                    PHISHGUARD SECURITY SYSTEM
+                </span>
+
+                <span>
+                    VERIFIED
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="settings-primary-btn id-print-btn"
+            onclick="printVisibleCard()">
+
+            🖨 Print ID Card
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ==================== ADD ANALYST MODAL ==================== -->
+<div
+    class="settings-modal-overlay"
+    id="analystModal">
+
+    <div class="settings-modal">
+
+        <div class="settings-modal-header">
+
+            <div>
+
+                <span class="modal-small-label">
+                    ANALYST MANAGEMENT
+                </span>
+
+                <h2>
+                    Add New Analyst
+                </h2>
+
+                <p>
+                    Create a new PhishGuard security analyst account.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="settings-close-btn"
+                onclick="closeAnalystModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- FORM -->
+        <form
+            method="POST"
+            action="#"
+            class="analyst-form">
+
+            <div class="analyst-form-grid">
+
+                <!-- FULL NAME -->
+                <div class="settings-form-group full">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter full name"
+                        autocomplete="name"
+                        required>
+
+                </div>
+
+
+                <!-- EMAIL -->
+                <div class="settings-form-group">
+
+                    <label for="email">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="analyst@example.com"
+                        autocomplete="email"
+                        required>
+
+                </div>
+
+
+                <!-- ROLE -->
+                <div class="settings-form-group">
+
+                    <label for="role">
+                        Role
+                    </label>
+
+                    <select
+                        id="role"
+                        name="role"
+                        required>
+
+                        <option value="">
+                            Select role
+                        </option>
+
+                        <option value="Security Analyst">
+                            Security Analyst
+                        </option>
+
+                        <option value="Senior Security Analyst">
+                            Senior Security Analyst
+                        </option>
+
+                        <option value="SOC Analyst">
+                            SOC Analyst
+                        </option>
+
+                        <option value="Administrator">
+                            Administrator
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- ISSUED DATE -->
+                <div class="settings-form-group">
+
+                    <label for="issued_date">
+                        Issued Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="issued_date"
+                        name="issued_date"
+                        required>
+
+                </div>
+
+
+                <!-- EXPIRY DATE -->
+                <div class="settings-form-group">
+
+                    <label for="expiry_date">
+                        Expiry Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="expiry_date"
+                        name="expiry_date"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- FORM NOTE -->
+            <div class="analyst-form-note">
+
+                <span>
+                    ⓘ
+                </span>
+
+                <p>
+                    A unique Analyst ID will be generated automatically
+                    when the account is created.
+                </p>
+
+            </div>
+
+
+            <!-- FORM ACTIONS -->
+            <div class="settings-modal-actions">
+
+                <button
+                    type="button"
+                    class="settings-cancel-btn"
+                    onclick="closeAnalystModal()">
+
+                    Cancel
+
+                </button>
+
+                <button
+                    type="submit"
+                    class="settings-primary-btn">
+
+                    Create Analyst
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- ==================== VIEW ANALYST MODAL ==================== -->
+<div
+    class="settings-modal-overlay"
+    id="viewAnalystModal">
+
+    <div class="settings-modal view-modal">
+
+        <div class="settings-modal-header">
+
+            <div>
+
+                <span class="modal-small-label">
+                    ANALYST PROFILE
+                </span>
+
+                <h2 id="viewName">
+                    Security Analyst
+                </h2>
+
+                <p>
+                    PhishGuard identification details.
+                </p>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="settings-close-btn"
+                onclick="closeViewModal()">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- PROFILE -->
+        <div class="view-profile">
+
+            <div
+                class="view-profile-avatar"
+                id="viewAvatar">
+
+                SA
+
+            </div>
+
+
+            <div class="view-profile-name">
+
+                <strong id="viewRole">
+                    Security Analyst
+                </strong>
+
+                <span
+                    class="profile-active-badge"
+                    id="viewStatusBadge">
+
+                    ● Active Analyst
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- DETAILS -->
+        <div class="view-details-grid">
+
+            <div>
+
+                <span>
+                    Analyst ID
+                </span>
+
+                <strong id="viewId">
+                    PG-AN-0001
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Email
+                </span>
+
+                <strong id="viewEmail">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Issued Date
+                </span>
+
+                <strong id="viewIssued">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Expiry Date
+                </span>
+
+                <strong id="viewExpiry">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Role
+                </span>
+
+                <strong id="viewRoleDetails">
+                    -
+                </strong>
+
+            </div>
+
+
+            <div>
+
+                <span>
+                    Status
+                </span>
+
+                <strong id="viewStatus">
+                    Active
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <!-- MODAL ACTIONS -->
+        <div class="settings-modal-actions">
+
+            <button
+                type="button"
+                class="settings-cancel-btn"
+                onclick="closeViewModal()">
+
+                Close
+
+            </button>
+
+            <button
+                type="button"
+                class="settings-primary-btn"
+                onclick="printCurrentCard()">
+
+                🖨 Print ID
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+```
+
+</div>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+
+<script>
+
+let currentAnalyst = {};
+
+
+/* ==================== OPEN ADD MODAL ==================== */
+
+function openAnalystModal() {
+
+    const modal = document.getElementById("analystModal");
+
+    if (modal) {
+        modal.classList.add("show");
+    }
+
+}
+
+
+/* ==================== CLOSE ADD MODAL ==================== */
+
+function closeAnalystModal() {
+
+    const modal = document.getElementById("analystModal");
+
+    if (modal) {
+        modal.classList.remove("show");
+    }
+
+}
+
+
+/* ==================== SHOW ANALYST ==================== */
+
+function showAnalyst(analyst) {
+
+    currentAnalyst = analyst || {};
+
+    const id = analyst.analyst_id || "";
+    const name = analyst.name || "Security Analyst";
+    const email = analyst.email || "-";
+    const role = analyst.role || "Security Analyst";
+    const issued = analyst.issued_date || "-";
+    const expiry = analyst.expiry_date || "-";
+    const status = analyst.status || "Active";
+
+
+    document.getElementById("viewId").textContent = id;
+
+    document.getElementById("viewName").textContent = name;
+
+    document.getElementById("viewEmail").textContent = email;
+
+    document.getElementById("viewIssued").textContent = issued;
+
+    document.getElementById("viewExpiry").textContent = expiry;
+
+    document.getElementById("viewRole").textContent = role;
+
+    document.getElementById("viewRoleDetails").textContent = role;
+
+    document.getElementById("viewStatus").textContent = status;
+
+    document.getElementById("viewAvatar").textContent =
+        getInitials(name);
+
+
+    const statusBadge =
+        document.getElementById("viewStatusBadge");
+
+
+    if (status === "Active") {
+
+        statusBadge.textContent =
+            "● Active Analyst";
+
+    } else {
+
+        statusBadge.textContent =
+            "● Inactive Analyst";
+
+    }
+
+
+    document
+        .getElementById("viewAnalystModal")
+        .classList.add("show");
+
+}
+
+
+/* ==================== CLOSE VIEW MODAL ==================== */
+
+function closeViewModal() {
+
+    const modal =
+        document.getElementById("viewAnalystModal");
+
+    if (modal) {
+        modal.classList.remove("show");
+    }
+
+}
+
+
+/* ==================== GET INITIALS ==================== */
+
+function getInitials(name) {
+
+    if (!name) {
+        return "SA";
+    }
+
+    return name
+        .trim()
+        .split(/\s+/)
+        .map(function(word) {
+            return word.charAt(0);
+        })
+        .join("")
+        .substring(0, 2)
+        .toUpperCase();
+
+}
+
+
+/* ==================== UPDATE ID CARD ==================== */
+
+function updateIDCard(analyst) {
+
+    if (!analyst) {
+        return;
+    }
+
+    const name =
+        analyst.name || "Security Analyst";
+
+    const role =
+        analyst.role || "Security Analyst";
+
+    const id =
+        analyst.analyst_id || "PG-AN-0001";
+
+
+    document.getElementById("cardId").textContent = id;
+
+    document.getElementById("cardName").textContent = name;
+
+    document.getElementById("cardRole").textContent = role;
+
+    document.getElementById("cardAvatar").textContent =
+        getInitials(name);
+
+}
+
+
+/* ==================== PRINT ANALYST ==================== */
+
+function printAnalyst(analyst) {
+
+    currentAnalyst = analyst || {};
+
+    updateIDCard(currentAnalyst);
+
+    setTimeout(function() {
+
+        window.print();
+
+    }, 200);
+
+}
+
+
+/* ==================== PRINT CURRENT CARD ==================== */
+
+function printCurrentCard() {
+
+    if (!currentAnalyst || !currentAnalyst.analyst_id) {
+        return;
+    }
+
+    updateIDCard(currentAnalyst);
+
+    closeViewModal();
+
+    setTimeout(function() {
+
+        window.print();
+
+    }, 300);
+
+}
+
+
+/* ==================== PRINT VISIBLE CARD ==================== */
+
+function printVisibleCard() {
+
+    window.print();
+
+}
+
+
+/* ==================== OUTSIDE CLICK ==================== */
+
+window.addEventListener("click", function(event) {
+
+    const addModal =
+        document.getElementById("analystModal");
+
+    const viewModal =
+        document.getElementById("viewAnalystModal");
+
+
+    if (event.target === addModal) {
+
+        closeAnalystModal();
+
+    }
+
+
+    if (event.target === viewModal) {
+
+        closeViewModal();
+
+    }
+
+});
+
+
+/* ==================== ESC KEY ==================== */
+
+document.addEventListener("keydown", function(event) {
+
+    if (event.key === "Escape") {
+
+        closeAnalystModal();
+
+        closeViewModal();
+
+    }
+
+});
+
+
+/* ==================== DEFAULT DATES ==================== */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {
+
+        const issued =
+            document.getElementById("issued_date");
+
+        const expiry =
+            document.getElementById("expiry_date");
+
+
+        if (!issued || !expiry) {
+            return;
+        }
+
+
+        const today = new Date();
+
+
+        function formatDate(date) {
+
+            const year =
+                date.getFullYear();
+
+            const month =
+                String(
+                    date.getMonth() + 1
+                ).padStart(2, "0");
+
+            const day =
+                String(
+                    date.getDate()
+                ).padStart(2, "0");
+
+
+            return `${year}-${month}-${day}`;
+
+        }
+
+
+        issued.value =
+            formatDate(today);
+
+
+        const nextYear =
+            new Date(today);
+
+
+        nextYear.setFullYear(
+            nextYear.getFullYear() + 1
+        );
+
+
+        expiry.value =
+            formatDate(nextYear);
+
+    }
+);
+
+</script>
+
+{% endblock %}

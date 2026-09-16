@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Reports
+{% endblock %}
+
+{% block page_subtitle %}
+Review previous email security analysis
+{% endblock %}
+
+{% block content %}
+
+<div class="report-summary">
+
+    <div class="report-stat">
+        <span>Total Reports</span>
+        <strong>{{ reports|length }}</strong>
+    </div>
+
+    <div class="report-stat">
+        <span>Phishing Reports</span>
+        <strong class="danger-text">
+            {{ reports|selectattr('result','equalto','Phishing')|list|length }}
+        </strong>
+    </div>
+
+    <div class="report-stat">
+        <span>Safe Reports</span>
+        <strong class="success-text">
+            {{ reports|selectattr('result','equalto','Safe')|list|length }}
+        </strong>
+    </div>
+
+    <div class="report-stat">
+        <span>Last Analysis</span>
+        <strong>
+            {% if reports %}
+                {{ reports[0].created_at }}
+            {% else %}
+                --
+            {% endif %}
+        </strong>
+    </div>
+
+</div>
+
+<div class="panel reports-panel">
+
+    <div class="panel-header">
+        <div>
+            <h3>Analysis Reports</h3>
+        </div>
+
+        <button onclick="printReport()">
+            🖨 Print Report
+        </button>
+    </div>
+
+    <div class="table-wrapper">
+
+        {% if reports %}
+
+        <table style="width:100%; border-collapse:collapse;">
+
+            <thead>
+                <tr>
+                    <th>Sender</th>
+                    <th>Subject</th>
+                    <th>Result</th>
+                    <th>Score</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for report in reports %}
+
+                <tr>
+                    <td>{{ report.sender }}</td>
+                    <td>{{ report.subject }}</td>
+
+                    <td>
+                        {% if report.result == "Phishing" %}
+                            ⚠️ Phishing
+                        {% else %}
+                            ✅ Safe
+                        {% endif %}
+                    </td>
+
+                    <td>{{ report.score }}</td>
+                    <td>{{ report.created_at }}</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty-state">
+            <h4>No reports available</h4>
+            <p>Analyze an email to generate reports.</p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+<script>
+
+function printReport() {
+
+    var content = document.querySelector(".reports-panel").innerHTML;
+
+    var win = window.open("", "", "width=1000,height=700");
+
+    win.document.write(`
+        <html>
+        <head>
+            <title>PhishGuard Security Report</title>
+
+            <style>
+
+                body{
+                    font-family:Arial,sans-serif;
+                    padding:20px;
+                }
+
+                h2{
+                    text-align:center;
+                }
+
+                table{
+                    width:100%;
+                    border-collapse:collapse;
+                    margin-top:20px;
+                }
+
+                th,td{
+                    border:1px solid #ddd;
+                    padding:10px;
+                    text-align:left;
+                }
+
+                th{
+                    background:#f2f2f2;
+                }
+
+                button{
+                    display:none;
+                }
+
+            </style>
+
+        </head>
+
+        <body>
+
+            <h2>PhishGuard Analysis Report</h2>
+
+            ${content}
+
+        </body>
+
+        </html>
+    `);
+
+    win.document.close();
+    win.focus();
+    win.print();
+}
+
+</script>
+
+{% endblock %}

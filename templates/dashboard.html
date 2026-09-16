@@ -1,0 +1,159 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Security Dashboard
+{% endblock %}
+
+{% block page_subtitle %}
+Analyze and monitor suspicious email activity
+{% endblock %}
+
+
+{% block content %}
+
+<div class="welcome-card">
+
+    <div>
+        <span class="eyebrow">EMAIL SECURITY</span>
+
+        <h2>Stay protected from phishing attacks</h2>
+
+        <p>
+            Analyze suspicious emails using machine learning
+            and identify potential phishing threats.
+        </p>
+
+        <a href="/analyze" class="primary-button">
+            Analyze an Email →
+        </a>
+    </div>
+
+    <div class="shield-large">
+        🛡️
+    </div>
+
+</div>
+
+
+<!-- Statistics -->
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-icon blue">📧</div>
+        <div>
+            <span>Total Analyzed</span>
+            <h3>{{ total_reports }}</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon red">⚠️</div>
+        <div>
+            <span>Phishing Detected</span>
+            <h3>{{ phishing_count }}</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon green">✓</div>
+        <div>
+            <span>Safe Emails</span>
+            <h3>{{ safe_count }}</h3>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-icon purple">🎯</div>
+        <div>
+            <span>Model Accuracy</span>
+            <h3>95%</h3>
+        </div>
+    </div>
+
+</div>
+
+<!-- Dashboard lower section -->
+
+<div class="dashboard-grid">
+
+    <!-- Chart Panel -->
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Detection Overview</h3>
+                <p>Phishing vs Safe emails</p>
+            </div>
+        </div>
+
+        <div class="chart-placeholder">
+                <canvas id="phishingChart"
+                    data-phishing-count="{{ phishing_count }}"
+                    data-safe-count="{{ safe_count }}"></canvas>
+        </div>
+
+        <div style="text-align:center;margin-top:15px;">
+            <p>Total Emails: {{ total_reports }}</p>
+            <p>Phishing: {{ phishing_count }}</p>
+            <p>Safe: {{ safe_count }}</p>
+        </div>
+
+    </div>
+
+    <!-- Recent Activity Panel -->
+    <div class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h3>Recent Activity</h3>
+                <p>Latest email analyses</p>
+            </div>
+
+            <a href="/reports">View All</a>
+        </div>
+
+        {% if reports %}
+
+            {% for report in reports[:5] %}
+
+            <div style="padding:10px;border-bottom:1px solid #eee;">
+                <strong>{{ report.sender }}</strong><br>
+                <small>Result: {{ report.result }}</small>
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+        <div class="empty-state">
+            <h4>No analyses yet</h4>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const ctx = document.getElementById('phishingChart');
+
+new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Phishing', 'Safe'],
+        datasets: [{
+            data: [
+                Number(ctx.dataset.phishingCount),
+                Number(ctx.dataset.safeCount)
+            ]
+        }]
+    }
+});
+
+</script>
+
+{% endblock %}

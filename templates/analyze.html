@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Analyze Email
+{% endblock %}
+
+{% block page_subtitle %}
+Check an email for phishing indicators
+{% endblock %}
+
+{% block content %}
+
+<div class="analysis-layout">
+
+    <div class="panel analysis-form">
+
+        <div class="panel-header">
+            <div>
+                <h3>Email Analysis</h3>
+                <p>Enter the email details below for security analysis.</p>
+            </div>
+        </div>
+
+        <form method="POST" action="/analyze">
+
+            <label>Sender Email</label>
+            <input
+                type="email"
+                name="sender"
+                placeholder="example@company.com"
+                required>
+
+            <label>Subject</label>
+            <input
+                type="text"
+                name="subject"
+                placeholder="Enter email subject"
+                required>
+
+            <label>Email Content</label>
+            <textarea
+                rows="12"
+                name="content"
+                placeholder="Paste the complete email content here..."
+                required></textarea>
+
+            <button type="submit" class="analyze-button">
+                🔍 Analyze Email
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <div class="panel analysis-info">
+
+        <div class="panel-header">
+            <div>
+                <h3>Detection Engine</h3>
+                <p>Machine learning analysis</p>
+            </div>
+        </div>
+
+        <div class="engine-status">
+            <span class="status-dot"></span>
+            Model Ready
+        </div>
+
+        <div class="detection-item">
+            <div class="detection-icon">🔗</div>
+            <div>
+                <strong>URL Analysis</strong>
+                <p>Checks suspicious links and URL patterns.</p>
+            </div>
+        </div>
+
+        <div class="detection-item">
+            <div class="detection-icon">🔤</div>
+            <div>
+                <strong>Text Analysis</strong>
+                <p>Analyzes keywords and email content.</p>
+            </div>
+        </div>
+
+        <div class="detection-item">
+            <div class="detection-icon">🤖</div>
+            <div>
+                <strong>ML Classification</strong>
+                <p>Classifies the email as Phishing or Safe.</p>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if result %}
+
+<div class="panel" style="margin-top:20px;">
+
+    <div class="panel-header">
+        <div>
+            <h3>Analysis Result</h3>
+            <p>Email classification output</p>
+        </div>
+    </div>
+
+    {% if result == "Phishing" %}
+
+    <div style="
+        padding:20px;
+        border-radius:12px;
+        background:#ffe5e5;
+        color:#b30000;
+        font-size:20px;
+        font-weight:bold;">
+        ⚠️ PHISHING EMAIL DETECTED
+    </div>
+
+    {% else %}
+
+    <div style="
+        padding:20px;
+        border-radius:12px;
+        background:#e8fff0;
+        color:#006b2d;
+        font-size:20px;
+        font-weight:bold;">
+        ✅ SAFE EMAIL
+    </div>
+
+    {% endif %}
+
+    <br>
+
+    <h4>Risk Score: {{ score }}</h4>
+
+    
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}

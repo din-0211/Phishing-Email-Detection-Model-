@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+Phishing Detection
+{% endblock %}
+
+{% block page_subtitle %}
+Understanding phishing emails and how PhishGuard detects them
+{% endblock %}
+
+{% block content %}
+
+<div class="about-hero">
+
+    <div>
+
+        <span class="eyebrow">SECURITY AWARENESS</span>
+
+        <h2>What is Phishing?</h2>
+
+        <p>
+            Phishing is a type of cyber attack where attackers
+            impersonate trusted individuals or organizations to
+            trick users into revealing sensitive information,
+            clicking malicious links, or downloading harmful files.
+        </p>
+
+    </div>
+
+    <div class="about-shield">
+        🎣
+    </div>
+
+</div>
+
+
+<div class="info-grid">
+
+    <div class="panel info-card">
+
+        <div class="info-icon">📧</div>
+
+        <h3>Suspicious Email Content</h3>
+
+        <p>
+            Phishing emails often contain urgent messages,
+            unexpected requests, fake offers, or unusual language.
+        </p>
+
+    </div>
+
+
+    <div class="panel info-card">
+
+        <div class="info-icon">🔗</div>
+
+        <h3>Malicious URLs</h3>
+
+        <p>
+            Attackers may use suspicious links that redirect
+            users to fake login pages or malicious websites.
+        </p>
+
+    </div>
+
+
+    <div class="panel info-card">
+
+        <div class="info-icon">⚠️</div>
+
+        <h3>Social Engineering</h3>
+
+        <p>
+            Phishing attacks use psychological techniques such as
+            urgency, fear, rewards, and authority.
+        </p>
+
+    </div>
+
+</div>
+
+
+<div class="panel detection-method">
+
+    <div class="panel-header">
+
+        <div>
+            <h3>How PhishGuard Detects Phishing</h3>
+            <p>Our detection pipeline combines multiple analysis techniques.</p>
+        </div>
+
+    </div>
+
+
+    <div class="detection-flow">
+
+        <div class="flow-card">
+            <span>01</span>
+            <strong>Email Input</strong>
+            <p>Sender, subject and email content</p>
+        </div>
+
+        <div class="flow-line">→</div>
+
+        <div class="flow-card">
+            <span>02</span>
+            <strong>Feature Extraction</strong>
+            <p>Text, URLs and suspicious keywords</p>
+        </div>
+
+        <div class="flow-line">→</div>
+
+        <div class="flow-card">
+            <span>03</span>
+            <strong>Machine Learning</strong>
+            <p>Scikit-learn classification model</p>
+        </div>
+
+        <div class="flow-line">→</div>
+
+        <div class="flow-card">
+            <span>04</span>
+            <strong>Security Result</strong>
+            <p>Phishing or Safe classification</p>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="panel technology-panel">
+
+    <h3>Technologies Used</h3>
+
+    <div class="technology-list">
+
+        <span>Python</span>
+        <span>Flask</span>
+        <span>Scikit-learn</span>
+        <span>Pandas</span>
+        <span>TF-IDF</span>
+        <span>SQLite</span>
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+
+    </div>
+
+</div>
+
+{% endblock %}
