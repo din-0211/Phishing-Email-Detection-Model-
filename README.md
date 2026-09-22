@@ -181,7 +181,7 @@ This project demonstrates:
 
 ## Author
 
-**Dinesh**
+**Deepika S**
 
 Cybersecurity Project Developer
 
@@ -191,4 +191,4 @@ PhishGuard - AI Powered Phishing Email Detector
 
 ## License
 
-This project is developed for educational and cybersecurity learning purposes.
+This project is developed for educational and cybersecurity learning purposes. 
